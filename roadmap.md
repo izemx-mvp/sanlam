@@ -1,0 +1,4 @@
+- [ ] Add Sanlam brand assets, typed local content, and the design system.
+- [ ] Build the homepage, offer pages, quote and claim flows, agency and legal pages.
+- [ ] Add French route metadata, favicon, and sitemap/robots coverage.
+- [ ] Run routing/form checks, inspect the preview, review diagnostics, and commit.
