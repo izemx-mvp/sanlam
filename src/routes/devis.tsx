@@ -14,7 +14,7 @@ const contactSchema = z.object({ fullName: z.string().trim().min(2, "Indiquez vo
 type ContactValues = z.infer<typeof contactSchema>;
 
 export const Route = createFileRoute("/devis")({
-  validateSearch: (search: Record<string, unknown>) => typeof search.produit === "string" ? { produit: search.produit } : {},
+  validateSearch: (search: Record<string, unknown>) => typeof search["produit"] === "string" ? { produit: search["produit"] } : {},
   head: () => ({ meta: [
     { title: "Demander un devis d'assurance | Sanlam Casablanca" },
     { name: "description", content: "Préparez une demande de devis d'assurance avec votre agence Sanlam à Casablanca." },
@@ -32,9 +32,10 @@ function QuotePage() {
   const [detailValues, setDetailValues] = useState<Record<string, string>>({});
   const [detailError, setDetailError] = useState("");
   const [reference, setReference] = useState("");
-  const offer = findOffer(offerSlug) ?? offers[0];
-  const fields = quoteFieldsByOffer[offer.slug] ?? [];
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<ContactValues>({ resolver: zodResolver(contactSchema), mode: "onTouched" });
+  const offer = findOffer(offerSlug);
+  if (!offer) return <SiteShell><PageIntro eyebrow="Votre projet" title="Préparons votre devis." description="Choisissez une assurance pour continuer." /></SiteShell>;
+  const fields = quoteFieldsByOffer[offer.slug] ?? [];
 
   function continueToContact(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

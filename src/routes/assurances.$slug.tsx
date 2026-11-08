@@ -10,16 +10,18 @@ export const Route = createFileRoute("/assurances/$slug")({
     if (!offer) throw notFound();
     return offer;
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData.title} à Casablanca | Sanlam` },
-      { name: "description", content: `${loaderData.intro} Échangez avec votre agent Sanlam à Casablanca pour étudier votre besoin.` },
-      { property: "og:title", content: `${loaderData.title} à Casablanca | Sanlam` },
-      { property: "og:description", content: loaderData.intro },
+  head: ({ loaderData }) => {
+    const title = loaderData?.title ?? "Assurance";
+    const intro = loaderData?.intro ?? "Découvrez les assurances proposées par votre agence Sanlam à Casablanca.";
+    return { meta: [
+      { title: `${title} à Casablanca | Sanlam` },
+      { name: "description", content: `${intro} Échangez avec votre agent Sanlam à Casablanca pour étudier votre besoin.` },
+      { property: "og:title", content: `${title} à Casablanca | Sanlam` },
+      { property: "og:description", content: intro },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+    ] };
+  },
   component: OfferPage,
 });
 
