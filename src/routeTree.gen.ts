@@ -9,27 +9,160 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgenceRouteImport } from './routes/agence'
+import { Route as DevisRouteImport } from './routes/devis'
+import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as SinistresRouteImport } from './routes/sinistres'
+import { Route as AssurancesSlugRouteImport } from './routes/assurances.$slug'
 
-export interface FileRoutesByFullPath {}
-export interface FileRoutesByTo {}
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgenceRoute = AgenceRouteImport.update({
+  id: '/agence',
+  path: '/agence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevisRoute = DevisRouteImport.update({
+  id: '/devis',
+  path: '/devis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SinistresRoute = SinistresRouteImport.update({
+  id: '/sinistres',
+  path: '/sinistres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssurancesSlugRoute = AssurancesSlugRouteImport.update({
+  id: '/assurances/$slug',
+  path: '/assurances/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/agence': typeof AgenceRoute
+  '/devis': typeof DevisRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/sinistres': typeof SinistresRoute
+  '/assurances/$slug': typeof AssurancesSlugRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/agence': typeof AgenceRoute
+  '/devis': typeof DevisRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/sinistres': typeof SinistresRoute
+  '/assurances/$slug': typeof AssurancesSlugRoute
+}
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/agence': typeof AgenceRoute
+  '/devis': typeof DevisRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/sinistres': typeof SinistresRoute
+  '/assurances/$slug': typeof AssurancesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: never
+  fullPaths:
+    | '/'
+    | '/agence'
+    | '/devis'
+    | '/mentions-legales'
+    | '/sinistres'
+    | '/assurances/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: never
-  id: '__root__'
+  to:
+    | '/'
+    | '/agence'
+    | '/devis'
+    | '/mentions-legales'
+    | '/sinistres'
+    | '/assurances/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/agence'
+    | '/devis'
+    | '/mentions-legales'
+    | '/sinistres'
+    | '/assurances/$slug'
   fileRoutesById: FileRoutesById
 }
-export interface RootRouteChildren {}
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {}
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AgenceRoute: typeof AgenceRoute
+  DevisRoute: typeof DevisRoute
+  MentionsLegalesRoute: typeof MentionsLegalesRoute
+  SinistresRoute: typeof SinistresRoute
+  AssurancesSlugRoute: typeof AssurancesSlugRoute
 }
 
-const rootRouteChildren: RootRouteChildren = {}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agence': {
+      id: '/agence'
+      path: '/agence'
+      fullPath: '/agence'
+      preLoaderRoute: typeof AgenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/devis': {
+      id: '/devis'
+      path: '/devis'
+      fullPath: '/devis'
+      preLoaderRoute: typeof DevisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentions-legales': {
+      id: '/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sinistres': {
+      id: '/sinistres'
+      path: '/sinistres'
+      fullPath: '/sinistres'
+      preLoaderRoute: typeof SinistresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assurances/$slug': {
+      id: '/assurances/$slug'
+      path: '/assurances/$slug'
+      fullPath: '/assurances/$slug'
+      preLoaderRoute: typeof AssurancesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AgenceRoute: AgenceRoute,
+  DevisRoute: DevisRoute,
+  MentionsLegalesRoute: MentionsLegalesRoute,
+  SinistresRoute: SinistresRoute,
+  AssurancesSlugRoute: AssurancesSlugRoute,
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
