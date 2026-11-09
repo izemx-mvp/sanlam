@@ -11,10 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgenceRouteImport } from './routes/agence'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DevisRouteImport } from './routes/devis'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as ParticuliersRouteImport } from './routes/particuliers'
+import { Route as PolitiqueDeConfidentialiteRouteImport } from './routes/politique-de-confidentialite'
+import { Route as ProfessionnelsRouteImport } from './routes/professionnels'
 import { Route as SinistresRouteImport } from './routes/sinistres'
 import { Route as AssurancesSlugRouteImport } from './routes/assurances.$slug'
+import { Route as ConseilsIndexRouteImport } from './routes/conseils.index'
+import { Route as ConseilsSlugRouteImport } from './routes/conseils.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -26,14 +33,40 @@ const AgenceRoute = AgenceRouteImport.update({
   path: '/agence',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DevisRoute = DevisRouteImport.update({
   id: '/devis',
   path: '/devis',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
   id: '/mentions-legales',
   path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParticuliersRoute = ParticuliersRouteImport.update({
+  id: '/particuliers',
+  path: '/particuliers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PolitiqueDeConfidentialiteRoute =
+  PolitiqueDeConfidentialiteRouteImport.update({
+    id: '/politique-de-confidentialite',
+    path: '/politique-de-confidentialite',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ProfessionnelsRoute = ProfessionnelsRouteImport.update({
+  id: '/professionnels',
+  path: '/professionnels',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SinistresRoute = SinistresRouteImport.update({
@@ -46,66 +79,125 @@ const AssurancesSlugRoute = AssurancesSlugRouteImport.update({
   path: '/assurances/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConseilsIndexRoute = ConseilsIndexRouteImport.update({
+  id: '/conseils/',
+  path: '/conseils/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConseilsSlugRoute = ConseilsSlugRouteImport.update({
+  id: '/conseils/$slug',
+  path: '/conseils/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agence': typeof AgenceRoute
+  '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
+  '/faq': typeof FaqRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/particuliers': typeof ParticuliersRoute
+  '/politique-de-confidentialite': typeof PolitiqueDeConfidentialiteRoute
+  '/professionnels': typeof ProfessionnelsRoute
   '/sinistres': typeof SinistresRoute
   '/assurances/$slug': typeof AssurancesSlugRoute
+  '/conseils/$slug': typeof ConseilsSlugRoute
+  '/conseils/': typeof ConseilsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agence': typeof AgenceRoute
+  '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
+  '/faq': typeof FaqRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/particuliers': typeof ParticuliersRoute
+  '/politique-de-confidentialite': typeof PolitiqueDeConfidentialiteRoute
+  '/professionnels': typeof ProfessionnelsRoute
   '/sinistres': typeof SinistresRoute
   '/assurances/$slug': typeof AssurancesSlugRoute
+  '/conseils/$slug': typeof ConseilsSlugRoute
+  '/conseils': typeof ConseilsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agence': typeof AgenceRoute
+  '/contact': typeof ContactRoute
   '/devis': typeof DevisRoute
+  '/faq': typeof FaqRoute
   '/mentions-legales': typeof MentionsLegalesRoute
+  '/particuliers': typeof ParticuliersRoute
+  '/politique-de-confidentialite': typeof PolitiqueDeConfidentialiteRoute
+  '/professionnels': typeof ProfessionnelsRoute
   '/sinistres': typeof SinistresRoute
   '/assurances/$slug': typeof AssurancesSlugRoute
+  '/conseils/$slug': typeof ConseilsSlugRoute
+  '/conseils/': typeof ConseilsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/agence'
+    | '/contact'
     | '/devis'
+    | '/faq'
     | '/mentions-legales'
+    | '/particuliers'
+    | '/politique-de-confidentialite'
+    | '/professionnels'
     | '/sinistres'
     | '/assurances/$slug'
+    | '/conseils/$slug'
+    | '/conseils/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/agence'
+    | '/contact'
     | '/devis'
+    | '/faq'
     | '/mentions-legales'
+    | '/particuliers'
+    | '/politique-de-confidentialite'
+    | '/professionnels'
     | '/sinistres'
     | '/assurances/$slug'
+    | '/conseils/$slug'
+    | '/conseils'
   id:
     | '__root__'
     | '/'
     | '/agence'
+    | '/contact'
     | '/devis'
+    | '/faq'
     | '/mentions-legales'
+    | '/particuliers'
+    | '/politique-de-confidentialite'
+    | '/professionnels'
     | '/sinistres'
     | '/assurances/$slug'
+    | '/conseils/$slug'
+    | '/conseils/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgenceRoute: typeof AgenceRoute
+  ContactRoute: typeof ContactRoute
   DevisRoute: typeof DevisRoute
+  FaqRoute: typeof FaqRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
+  ParticuliersRoute: typeof ParticuliersRoute
+  PolitiqueDeConfidentialiteRoute: typeof PolitiqueDeConfidentialiteRoute
+  ProfessionnelsRoute: typeof ProfessionnelsRoute
   SinistresRoute: typeof SinistresRoute
   AssurancesSlugRoute: typeof AssurancesSlugRoute
+  ConseilsSlugRoute: typeof ConseilsSlugRoute
+  ConseilsIndexRoute: typeof ConseilsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -124,6 +216,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgenceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/devis': {
       id: '/devis'
       path: '/devis'
@@ -131,11 +230,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mentions-legales': {
       id: '/mentions-legales'
       path: '/mentions-legales'
       fullPath: '/mentions-legales'
       preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/particuliers': {
+      id: '/particuliers'
+      path: '/particuliers'
+      fullPath: '/particuliers'
+      preLoaderRoute: typeof ParticuliersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politique-de-confidentialite': {
+      id: '/politique-de-confidentialite'
+      path: '/politique-de-confidentialite'
+      fullPath: '/politique-de-confidentialite'
+      preLoaderRoute: typeof PolitiqueDeConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/professionnels': {
+      id: '/professionnels'
+      path: '/professionnels'
+      fullPath: '/professionnels'
+      preLoaderRoute: typeof ProfessionnelsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sinistres': {
@@ -152,16 +279,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AssurancesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conseils/': {
+      id: '/conseils/'
+      path: '/conseils'
+      fullPath: '/conseils/'
+      preLoaderRoute: typeof ConseilsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conseils/$slug': {
+      id: '/conseils/$slug'
+      path: '/conseils/$slug'
+      fullPath: '/conseils/$slug'
+      preLoaderRoute: typeof ConseilsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgenceRoute: AgenceRoute,
+  ContactRoute: ContactRoute,
   DevisRoute: DevisRoute,
+  FaqRoute: FaqRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
+  ParticuliersRoute: ParticuliersRoute,
+  PolitiqueDeConfidentialiteRoute: PolitiqueDeConfidentialiteRoute,
+  ProfessionnelsRoute: ProfessionnelsRoute,
   SinistresRoute: SinistresRoute,
   AssurancesSlugRoute: AssurancesSlugRoute,
+  ConseilsSlugRoute: ConseilsSlugRoute,
+  ConseilsIndexRoute: ConseilsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
-  Link,
   createRootRouteWithContext,
   useRouter,
   HeadContent,
@@ -9,28 +8,39 @@ import {
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { ArrowRight, Home } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { site } from "@/config/site";
+import { agencyJsonLd } from "@/lib/seo";
+import { SiteLayout, useInLayout } from "@/components/layout";
+import { AppLink } from "@/components/brand/blocks";
+import { Arcs, ArrowSlide, Container, pill } from "@/components/brand/primitives";
 
-function NotFoundComponent() {
+function NotFoundContent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand-ice px-6">
-      <div className="max-w-xl text-center">
-        <p className="display-font text-sm font-semibold uppercase text-primary">Sanlam Casablanca</p>
-        <h1 className="display-font mt-5 text-7xl font-semibold text-foreground">404</h1>
-        <h2 className="mt-4 text-2xl font-semibold text-foreground">Cette page est introuvable.</h2>
-        <p className="mt-3 text-base leading-7 text-muted-foreground">
-          Le lien a peut-être changé. Retrouvez les assurances et les informations de l'agence depuis l'accueil.
-        </p>
-        <div className="mt-7">
-          <Link to="/" className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground no-underline transition-colors hover:bg-primary/90">
-            Retour à l'accueil
-          </Link>
+    <section className="relative overflow-hidden bg-white">
+      <Container className="relative grid min-h-[70vh] place-items-center py-20 text-center">
+        <div className="relative">
+          <Arcs className="left-1/2 top-1/2 size-[34rem] -translate-x-1/2 -translate-y-1/2" />
+          <p aria-hidden="true" className="display-font relative text-[clamp(7rem,22vw,14rem)] font-semibold leading-none tracking-tighter text-transparent [-webkit-text-stroke:2px_var(--primary)]">404</p>
+          <h1 className="h2-display relative mt-4 text-brand-navy">Cette page s'est <span className="text-primary">égarée.</span></h1>
+          <p className="lead relative mx-auto mt-5 max-w-md">Le lien a peut-être changé. Retrouvez nos assurances depuis l'accueil, ou demandez directement votre devis gratuit.</p>
+          <div className="relative mt-9 flex flex-wrap justify-center gap-3">
+            <AppLink to="/" className={pill()}><Home />Accueil</AppLink>
+            <AppLink to="/devis" className={pill({ variant: "ghost" })}>Demander un devis <ArrowSlide icon={ArrowRight} /></AppLink>
+          </div>
         </div>
-      </div>
-    </div>
+      </Container>
+    </section>
   );
+}
+
+/** Works both inside the root layout (fuzzy not-found) and when rendered on its own. */
+function NotFoundComponent() {
+  const inLayout = useInLayout();
+  return inLayout ? <NotFoundContent /> : <SiteLayout><NotFoundContent /></SiteLayout>;
 }
 
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
@@ -41,30 +51,13 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-brand-sand px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
+        <h1 className="h2-display text-brand-navy">Cette page n'a pas pu s'afficher.</h1>
+        <p className="mt-4 text-ink">Un incident technique est survenu. Vous pouvez réessayer ou revenir à l'accueil.</p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <button type="button" onClick={() => { router.invalidate(); reset(); }} className={pill()}>Réessayer</button>
+          <a href="/" className={pill({ variant: "ghost" })}>Retour à l'accueil</a>
         </div>
       </div>
     </div>
@@ -73,30 +66,24 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
-    // Replace these placeholders with the app's name and description when first building the app.
-    // Each content route, / included, must still set its own head(). Never add og:image or
-    // twitter:image here: every page without its own would inherit the root's preview image.
+    // Each content route sets its own title, description, canonical and og:image via pageHead().
+    // Never add og:image or twitter:image here.
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sanlam Casablanca | Votre agence d'assurance" },
-      { name: "description", content: "Votre agence Sanlam à Casablanca : conseil en assurances pour les particuliers et les professionnels." },
-      { name: "author", content: "Sanlam Casablanca" },
-      { property: "og:title", content: "Sanlam Casablanca | Votre agent d'assurance" },
-      { property: "og:description", content: "Un agent à vos côtés pour choisir et comprendre vos assurances." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#0B2A45" },
+      { title: `${site.name} | Agent général ${site.insurer} à Tanger` },
+      { name: "description", content: `${site.name}, agent général ${site.insurer} à Tanger : assurances auto, habitation, santé, voyage et solutions professionnelles.` },
+      { name: "author", content: site.name },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(agencyJsonLd()) }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -123,8 +110,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <SiteLayout>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </SiteLayout>
     </QueryClientProvider>
   );
 }
